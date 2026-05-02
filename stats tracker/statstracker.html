@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Stats Tracker</title>
+  <link rel="stylesheet" href="statstracker.css">
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- PARTY -->
+    <div id="sc-party" class="screen active">
+      <div class="row" style="justify-content:space-between;margin-bottom:4px;">
+        <h1>⚔ The Party</h1>
+      </div>
+      <p class="sub">Choose your character or create a new one.</p>
+      <div id="party-grid" class="pgrid"></div>
+      <hr class="div" style="margin-top:0">
+      <h2 style="margin-bottom:11px;">New Character</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px;">
+        <div><label>Name</label><input type="text" id="new-name" placeholder="Character name"></div>
+        <div><label>Class</label>
+          <select id="new-class">
+            <option value="">Select class…</option>
+            <option>Knight</option>
+            <option>Barbarian</option>
+            <option>Assassin</option>
+            <option>Archer</option>
+            <option>Wizard</option>
+            <option>Witch</option>
+            <option>Bard</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <button class="btn btnp" onclick="createChar()">Create Character</button>
+        <button class="btn" onclick="document.getElementById('imp-file').click()">Import JSON</button>
+        <input type="file" accept=".json" id="imp-file" style="display:none" onchange="importChar(event)">
+      </div>
+    </div>
+
+    <!-- CHARACTER -->
+    <div id="sc-char" class="screen">
+      <div class="tb">
+        <button class="btn bsm" onclick="goBack()">← Party</button>
+        <div class="row">
+          <button class="btn bsm" onclick="exportChar()">Export JSON</button>
+          <button class="btn bsm btnd" onclick="deleteChar()">Delete</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chr-hdr">
+          <div class="ava" id="c-ava"></div>
+          <div style="flex:1;min-width:0;">
+            <div class="chr-nm" id="c-nm"></div>
+            <div class="chr-chips"><span class="chip" id="c-cls-chip"></span><span class="chip"
+                id="c-lv-chip"></span><span class="hp-st" id="c-hp-st"></span></div>
+          </div>
+        </div>
+        <div class="row" style="align-items:baseline;gap:5px;margin-bottom:5px;">
+          <span class="hp-big" id="c-hp-big">20</span><span class="hp-ml" id="c-hp-ml">/ 20 HP</span>
+        </div>
+        <div class="hp-bb">
+          <div class="hp-bf" id="c-hp-bar"></div>
+        </div>
+        <div class="hpc">
+          <input type="number" class="hpd" id="hp-delta" value="1" min="1">
+          <button class="btn bsm" onclick="applyHP(-1)">− Damage</button>
+          <button class="btn bsm" onclick="applyHP(1)">＋ Heal</button>
+          <button class="btn bsm" onclick="setFullHP()" style="margin-left:auto;">Full HP</button>
+        </div>
+        <hr class="div">
+        <div class="row" style="justify-content:space-between;">
+          <div class="row"><span class="gico"></span><span class="gv" id="c-gold">0</span><span
+              style="font-size:13px;color:var(--inkl);">gold</span><button class="bico"
+              onclick="adjGold(-1)">−</button><button class="bico" onclick="adjGold(1)">+</button></div>
+          <div class="row">
+            <h3 style="margin:0">Level</h3><button class="bico" onclick="adjLevel(-1)">−</button><span
+              style="font-family:var(--fd);font-size:15px;font-weight:500;min-width:20px;text-align:center"
+              id="c-lv-num">1</span><button class="bico" onclick="adjLevel(1)">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tbar">
+        <button class="tab active" onclick="swTab('stats',this)">Stats</button>
+        <button class="tab" id="tab-spells-btn" onclick="swTab('spells',this)">Spells</button>
+        <button class="tab" onclick="swTab('inventory',this)">Inventory</button>
+        <button class="tab" onclick="swTab('notes',this)">Notes</button>
+      </div>
+
+      <div id="tc-stats" class="tc active">
+        <div id="stat-container"></div>
+      </div>
+      <div id="tc-spells" class="tc">
+        <div id="spell-container"></div>
+      </div>
+      <div id="tc-inventory" class="tc">
+        <div class="card">
+          <h3 style="margin-bottom:9px">Equipped</h3>
+          <div id="inv-eq"></div>
+        </div>
+        <div id="inv-bags"></div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;">
+            <h3 style="margin:0">Carried Items</h3>
+            <span class="inv-counter" id="carried-counter">0 / 3</span>
+          </div>
+          <div id="inv-carried"></div>
+          <div class="row" style="margin-top:7px" id="carried-add-row">
+            <input type="text" id="new-item-inp" placeholder="Add item…" style="flex:1">
+            <button class="btn bsm" onclick="addCarried()">Add</button>
+          </div>
+        </div>
+      </div>
+      <div id="tc-notes" class="tc">
+        <div class="card"><label style="margin-bottom:6px">Notes</label><textarea class="notes-area" id="c-notes"
+            oninput="saveNotes()"></textarea></div>
+      </div>
+    </div>
+
+    <!-- SWAP MODAL -->
+    <div class="modal-bg" id="swap-modal" onclick="if(event.target===this)closeSwap()">
+      <div class="modal">
+        <div class="row" style="justify-content:space-between;margin-bottom:10px;">
+          <h2 id="swap-title">Swap item</h2>
+          <button class="btn bsm" onclick="closeSwap()">✕</button>
+        </div>
+        <p style="font-size:13px;color:var(--inkl);margin-bottom:10px;" id="swap-sub"></p>
+        <div id="swap-opts"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="statstracker.js"></script>
+</body>
+
+</html>
