@@ -66,7 +66,7 @@ const STARTER_INV={
   Archer:   {weapon:"Starter bow",  offhand:"",armor:["Starter hood","Starter chestplate","Starter leggings","Starter boots","Starter cloak"],bags:[{name:"Starter quiver",items:["Starter Arrow","Starter Arrow","Starter Arrow","Starter Arrow","Starter Arrow","Starter Arrow","Starter Arrow","Starter Arrow"]}],slots:[]},
   Wizard:   {weapon:"Starter staff",offhand:"",armor:["Starter hood","Starter cloak","Starter boots"],bags:[{name:"Starter bag",items:[]}],slots:[]},
   Witch:    {weapon:"Starter book", offhand:"Starter broom",armor:["Starter hat","Starter cloak","Starter boots"],bags:[{name:"Potion bag",items:[]},{name:"Ingredient bag",items:[]}],slots:[]},
-  Bard:     {weapon:"Starter guitar",offhand:"",armor:["Starter helmet","Starter chestplate","Starter leggings","Starter boots"],bags:[],slots:[]},
+  Bard:     {weapon:"Starter guitar",offhand:"",armor:["Starter chestplate","Starter leggings","Starter boots"],bags:[],slots:[]},
 };
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
