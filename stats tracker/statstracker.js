@@ -17,7 +17,7 @@ const BASE={
   Knight:   {Health:30,"Physical attack":4,"Magical attack":0,Range:1,"Physical defense":2,"Magical defense":0,"Magical proficiency":0,"Healing proficiency":0,"Brewing proficiency":0,Survival:1,"Animal handling":0,Knowledge:1,Precision:3,Perception:1,Investigation:0,"Movement speed":2,"Reaction speed":2,Acrobatics:1,Stamina:3,Stealth:0,Persuasion:2,Deception:2,Intimidation:2},
   Barbarian:{Health:50,"Physical attack":7,"Magical attack":0,Range:0,"Physical defense":6,"Magical defense":3,"Magical proficiency":0,"Healing proficiency":0,"Brewing proficiency":0,Survival:2,"Animal handling":0,Knowledge:0,Precision:0,Perception:0,Investigation:0,"Movement speed":3,"Reaction speed":-4,Acrobatics:0,Stamina:5,Stealth:0,Persuasion:-1,Deception:0,Intimidation:4},
   Assassin: {Health:20,"Physical attack":2,"Magical attack":0,Range:1,"Physical defense":-2,"Magical defense":-2,"Magical proficiency":0,"Healing proficiency":0,"Brewing proficiency":0,Survival:1,"Animal handling":0,Knowledge:1,Precision:2,Perception:2,Investigation:1,"Movement speed":3,"Reaction speed":2,Acrobatics:2,Stamina:2,Stealth:3,Persuasion:1,Deception:3,Intimidation:3},
-  Archer:   {Health:20,"Physical attack":0,"Magical attack":0,Range:5,"Physical defense":0,"Magical defense":0,"Magical proficiency":0,"Healing proficiency":0,"Brewing proficiency":0,Survival:2,"Animal handling":0,Knowledge:1,Precision:3,Perception:3,Investigation:0,"Movement speed":1,"Reaction speed":2,Acrobatics:2,Stamina:1,Stealth:3,Persuasion:1,Deception:0,Intimidation:1},
+  Archer:   {Health:20,"Physical attack":0,"Magical attack":0,Range:5,"Physical defense":0,"Magical defense":0,"Magical proficiency":0,"Healing proficiency":0,"Brewing proficiency":0,Survival:2,"Animal handling":2,Knowledge:1,Precision:3,Perception:3,Investigation:0,"Movement speed":1,"Reaction speed":2,Acrobatics:2,Stamina:1,Stealth:2,Persuasion:0,Deception:0,Intimidation:1},
   Wizard:   {Health:20,"Physical attack":0,"Magical attack":4,Range:1,"Physical defense":0,"Magical defense":2,"Magical proficiency":3,"Healing proficiency":2,"Brewing proficiency":0,Survival:1,"Animal handling":1,Knowledge:3,Precision:1,Perception:2,Investigation:0,"Movement speed":1,"Reaction speed":1,Acrobatics:0,Stamina:0,Stealth:0,Persuasion:1,Deception:1,Intimidation:1},
   Witch:    {Health:20,"Physical attack":0,"Magical attack":2,Range:1,"Physical defense":0,"Magical defense":0,"Magical proficiency":2,"Healing proficiency":1,"Brewing proficiency":3,Survival:2,"Animal handling":2,Knowledge:3,Precision:1,Perception:0,Investigation:0,"Movement speed":1,"Reaction speed":1,Acrobatics:0,Stamina:0,Stealth:0,Persuasion:1,Deception:2,Intimidation:3},
   Bard:     {Health:20,"Physical attack":0,"Magical attack":3,Range:0,"Physical defense":0,"Magical defense":0,"Magical proficiency":3,"Healing proficiency":3,"Brewing proficiency":0,Survival:0,"Animal handling":2,Knowledge:0,Precision:0,Perception:0,Investigation:0,"Movement speed":1,"Reaction speed":1,Acrobatics:0,Stamina:0,Stealth:0,Persuasion:6,Deception:4,Intimidation:2},
@@ -34,26 +34,24 @@ const GROUPS=[
   {title:"Charisma", color:"#B06010", rows:[{parent:"Charisma",children:["Persuasion","Deception","Intimidation"]}]},
 ];
 
-const SCHOOL_CLR={Fire:{bg:"#FBECEC",tx:"#8B1A1A"},Ice:{bg:"#EAF3FB",tx:"#0D3A6B"},Arcane:{bg:"#EEECFE",tx:"#2D1A6B"},Curse:{bg:"#F2ECFB",tx:"#4A1A6B"},Alchemy:{bg:"#EAF3DE",tx:"#1A4D10"},Divination:{bg:"#FBF0DC",tx:"#6B3A00"},Inspiration:{bg:"#FBF0DC",tx:"#6B3A00"},Enchantment:{bg:"#FBECF2",tx:"#6B1A40"},Healing:{bg:"#EAFBEC",tx:"#0D5A1A"}};
+const SCHOOL_CLR={Fire:{bg:"#FBECEC",tx:"#8B1A1A"},Ice:{bg:"#EAF3FB",tx:"#0D3A6B"},Ground:{bg:"#f7c98dff",tx:"#8b5e1aff"},Light:{bg:"#fffad0ff",tx:"#d7da3cff"},Arcane:{bg:"#EEECFE",tx:"#2D1A6B"},Curse:{bg:"#F2ECFB",tx:"#4A1A6B"},Alchemy:{bg:"#EAF3DE",tx:"#1A4D10"},Divination:{bg:"#FBF0DC",tx:"#6B3A00"},Inspiration:{bg:"#FBF0DC",tx:"#6B3A00"},Enchantment:{bg:"#FBECF2",tx:"#6B1A40"},Healing:{bg:"#EAFBEC",tx:"#0D5A1A"},Resonance:{bg:"#eaf6fbff",tx:"#0d4b5aff"}};
 
 const SPELLS={
   Wizard:[
-    {name:"Fireball",school:"Fire",cost:"3 MP",range:"8 tiles",desc:"Hurls a ball of fire that explodes on impact in a 2-tile radius.",effect:"Deals 2× Magical attack fire damage to all in radius."},
-    {name:"Frost Bolt",school:"Ice",cost:"2 MP",range:"6 tiles",desc:"A shard of ice that slows the target on hit.",effect:"Deals 1× Magical attack ice damage. Target movement −2 for 1 turn."},
-    {name:"Arcane Shield",school:"Arcane",cost:"2 MP",range:"Self",desc:"Surrounds caster in a shimmering barrier.",effect:"+3 Magical defense for 2 turns."},
-    {name:"Teleport",school:"Arcane",cost:"4 MP",range:"10 tiles",desc:"Blinks the caster to any visible location.",effect:"Instantly move up to Range tiles with no opportunity attacks."},
+    {name:"Firebolt",school:"Fire",cost:"10 MP",range:"Long",desc:"Hurls a ball of fire that explodes on impact.",effect:"Deals 2 Magical attack fire damage."},
+    {name:"Ground guard",school:"Ground",cost:"5 MP",range:"Short",desc:"Creates a defensive dirt wall for your team.",effect:"Grants teammates behind the wall 2 extra defense."},
+    {name:"Frostbite",school:"Ice",cost:"7 MP",range:"Short",desc:"Blows a cloud of cold air that slows down enemys.",effect:"Deals 1 Magical attack ice damage and reduces target movement by 2 for 1 turn."},
+    {name:"Light",school:"Light",cost:"2 MP",range:"Short",desc:"Creates a small ball of bright light.",effect:"Grants normal perception in dark rooms."},
   ],
   Witch:[
-    {name:"Hex",school:"Curse",cost:"2 MP",range:"5 tiles",desc:"A debilitating curse that weakens the target's resolve.",effect:"Target −2 to all stats for 2 turns."},
-    {name:"Brew Poison",school:"Alchemy",cost:"1 MP",range:"Self",desc:"Conjures a vial of contact poison.",effect:"Creates 1 Poison Vial. On hit: target loses 3 HP/turn for 3 turns."},
-    {name:"Familiar Sight",school:"Divination",cost:"1 MP",range:"Familiar",desc:"See through your familiar's eyes briefly.",effect:"View any tile your familiar can see for 1 turn."},
-    {name:"Cauldron Blast",school:"Alchemy",cost:"3 MP",range:"4 tiles",desc:"A volatile alchemical explosion.",effect:"Deals 1× Brewing + 1× Magical attack damage in 1-tile radius."},
+    {name:"Curse",school:"Curse",cost:"10 MP",range:"Medium",desc:"A debilitating curse that weakens the target's resolve.",effect:"Reduces all target stats by 1 for 1 turn."},
+    {name:"Fly",school:"Arcane",cost:"3 MP",range:"Self",desc:"Allows user to fly using a broom.",effect:"1 Magic Proficiency of flight duration."},
   ],
   Bard:[
-    {name:"Song of Courage",school:"Inspiration",cost:"2 MP",range:"All allies",desc:"A rousing melody that steels the party's nerves.",effect:"All allies +2 Attack and +2 Defense for 2 turns."},
-    {name:"Lullaby",school:"Enchantment",cost:"3 MP",range:"3 tiles",desc:"A soft melody that lulls enemies to sleep.",effect:"Target falls asleep for 2 turns unless damaged."},
-    {name:"Discord",school:"Enchantment",cost:"2 MP",range:"4 tiles",desc:"A jarring chord disrupting spellcasting.",effect:"Target cannot use magic for 1 turn."},
-    {name:"Ballad of Mending",school:"Healing",cost:"2 MP",range:"6 tiles",desc:"A soothing tune that closes wounds.",effect:"Target regains 1× Healing proficiency HP."},
+    {name:"Song of Courage",school:"Inspiration",cost:"2 MP",range:"Short",desc:"A rousing melody that steels the party's nerves.",effect:"All allies gain 1 Attack and Defense for 1 turn."},
+    {name:"Lullaby",school:"Enchantment",cost:"2 MP",range:"Short",desc:"A soft melody that lulls enemies to sleep.",effect:"Target falls asleep for 2 turns unless damaged."},
+    {name:"Heal prayer",school:"Healing",cost:"5 MP",range:"Short",desc:"A soothing tune that closes wounds.",effect:"Target regains 1 Healing proficiency HP."},
+    {name:"Sonic scream",school:"Resonance",cost:"5 MP",range:"Medium",desc:"Fires a sonic blast dealing damage to the target.",effect:"Deals 2 Magical attack sonic damage."},
   ],
 };
 
